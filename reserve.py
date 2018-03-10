@@ -30,7 +30,7 @@ password.send_keys(data['pass'])
 driver.find_element_by_tag_name("form").submit()
 
 time = data['time']
-day = datetime.datetime.today()  #+ datetime.timedelta(days=1)
+day = datetime.datetime.today()
 
 tmpl = "http://eikaiwa.dmm.com/list/?data[tab1][start_time]={}&data[tab1][end_time]={}&data[tab1][gender]=0&data[tab1][age]=年齢&data[tab1][free_word]=&date={}&tab=0&sort=4"
 url = tmpl.format(time, time, day.strftime('%Y-%m-%d'))
@@ -46,6 +46,12 @@ for button in buttons:
     try:
         WebDriverWait(driver, 5).until(
             EC.url_contains('eikaiwa.dmm.com/book/index'))
+
+        driver.find_element_by_id('lessonStyle').click()
+        driver.find_element_by_css_selector('#lessonStyle > [value = "Original Materials"]').click()
+        driver.find_element_by_id('originalMaterial').click()
+        driver.find_element_by_css_selector('#originalMaterial > [value = "Daily News"]').click()
+
         driver.find_element_by_id('submitBox').submit()
         break
     except (TimeoutException):
