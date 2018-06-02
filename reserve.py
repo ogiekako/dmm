@@ -17,19 +17,26 @@ pref = yaml.load(f)
 pref_id = pref['id']
 pref_pass = pref['pass']
 pref_time = pref['time']
-pref_lesson_style = pref['lessonStyle'] if 'lessonStyle' in pref else 'Original Materials'
+pref_lesson_style = pref[
+    'lessonStyle'] if 'lessonStyle' in pref else 'Original Materials'
 pref_original_material = ''
 if pref_lesson_style == 'Original Materials':
-  pref_original_material = pref['originalMaterial'] if 'originalMaterial' in pref else 'Daily News'
+    pref_original_material = pref[
+        'originalMaterial'] if 'originalMaterial' in pref else 'Daily News'
+
 
 def get_target_datetime(time_str):
     t = datetime.datetime.strptime(time_str, '%H:%M')
-    target_datetime = datetime.datetime.combine(datetime.date.today(), datetime.time(hour = t.hour, minute = t.minute))
+    target_datetime = datetime.datetime.combine(datetime.date.today(),
+                                                datetime.time(
+                                                    hour=t.hour,
+                                                    minute=t.minute))
     while target_datetime < datetime.datetime.now():
-        target_datetime += datetime.timedelta(days = 1)
+        target_datetime += datetime.timedelta(days=1)
     return target_datetime
 
-target_datetime = get_target_datetime(pref_time);
+
+target_datetime = get_target_datetime(pref_time)
 
 options = webdriver.ChromeOptions()
 if '--headless' in sys.argv:
@@ -62,10 +69,13 @@ for button in buttons:
             EC.url_contains('eikaiwa.dmm.com/book/index'))
 
         driver.find_element_by_id('lessonStyle').click()
-        driver.find_element_by_css_selector('#lessonStyle > [value = "{}"]'.format(pref_lesson_style)).click()
+        driver.find_element_by_css_selector(
+            '#lessonStyle > [value = "{}"]'.format(pref_lesson_style)).click()
         if pref_original_material:
             driver.find_element_by_id('originalMaterial').click()
-            driver.find_element_by_css_selector('#originalMaterial > [value = "{}"]'.format(pref_original_material)).click()
+            driver.find_element_by_css_selector(
+                '#originalMaterial > [value = "{}"]'.format(
+                    pref_original_material)).click()
 
         driver.find_element_by_id('submitBox').submit()
         break

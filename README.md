@@ -1,4 +1,4 @@
-Tool to automate reservation of [DMM英会話](http://eikaiwa.dmm.com/)
+Tool to automate the reservation of [DMM英会話](http://eikaiwa.dmm.com/)
 
 ## Usage
 
